@@ -15,14 +15,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gilclei.cursomc.domain.enums.TipoCliente;
+
 @Entity
-public class Cliente  implements Serializable{
+public class Cliente implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -30,19 +30,18 @@ public class Cliente  implements Serializable{
 	private String email;
 	private String cpf_cnpj;
 	private Integer tipoCliente;
-	
-	@JsonManagedReference
+
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
-	
+
 	@ElementCollection
 	@CollectionTable(name = "telefone")
 	private Set<String> telefones = new HashSet<>();
-	
-	@JsonBackReference
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
- 
+
 	public Cliente() {
 	}
 
@@ -95,7 +94,6 @@ public class Cliente  implements Serializable{
 		this.enderecos = enderecos;
 	}
 
-
 	public TipoCliente getTipoCliente() {
 		return TipoCliente.toEnum(tipoCliente);
 	}
@@ -107,7 +105,7 @@ public class Cliente  implements Serializable{
 	public Set<String> getTelefones() {
 		return telefones;
 	}
-	
+
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
@@ -134,12 +132,5 @@ public class Cliente  implements Serializable{
 		return "Cliente [id=" + id + ", nome=" + nome + ", email=" + email + ", cpf_cnpj=" + cpf_cnpj + ", tipoCliente="
 				+ tipoCliente + ", enderecos=" + enderecos + ", telefones=" + telefones + "]";
 	}
-
-	
-	
-	
-	
-	
-	
 
 }
