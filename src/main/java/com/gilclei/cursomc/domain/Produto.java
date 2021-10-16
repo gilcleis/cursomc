@@ -2,8 +2,10 @@ package com.gilclei.cursomc.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,25 +14,29 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-public class Produto implements Serializable{
+public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private Double preco;
-	
+
 	@JsonBackReference
 	@ManyToMany
-	@JoinTable(name = "produto_categoria",joinColumns = @JoinColumn(name = "produto_id"),inverseJoinColumns = @JoinColumn(name="categoria_id"))
+	@JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private List<Categoria> categorias = new ArrayList<>();
-	
+
+	@OneToMany(mappedBy = "id.produto")
+	private Set<ItemPedido> itemPedidos = new HashSet<>();
+
 	public Produto() {
 	}
 
@@ -39,6 +45,14 @@ public class Produto implements Serializable{
 		this.id = id;
 		this.nome = nome;
 		this.preco = preco;
+	}
+	
+	public List<Pedido> getPedidos(){
+		List<Pedido> pedidos = new ArrayList<>();
+		for (ItemPedido x : itemPedidos) {
+			pedidos.add(x.getPedido());			
+		}
+		return pedidos;
 	}
 
 	public Integer getId() {
@@ -69,6 +83,10 @@ public class Produto implements Serializable{
 		return categorias;
 	}
 
+	public Set<ItemPedido> getItemPedidos() {
+		return itemPedidos;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -90,9 +108,5 @@ public class Produto implements Serializable{
 	public String toString() {
 		return "Produto [id=" + id + ", nome=" + nome + ", preco=" + preco + ", categorias=" + categorias + "]";
 	}
-	
-	
-	
-	
 
 }
