@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -51,6 +52,17 @@ public class Pedido implements Serializable {
 		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+	
+	public double getValorTotal() {
+//		double soma = 0.0;
+//		for (ItemPedido ip : itemPedidos) {
+//			soma = soma + ip.getSubTotal();
+//		}	
+//		return soma;
+		
+		return  itemPedidos.stream().mapToDouble(x -> x.getSubTotal()).sum();
+		
 	}
 
 	public Integer getId() {
