@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.gilclei.cursomc.domain.Categoria;
 import com.gilclei.cursomc.domain.Pedido;
-import com.gilclei.cursomc.dto.CategoriaDTO;
 import com.gilclei.cursomc.services.PedidoService;
 
 @RestController
