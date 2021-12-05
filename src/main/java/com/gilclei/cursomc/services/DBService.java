@@ -20,6 +20,7 @@ import com.gilclei.cursomc.domain.PagamentoCartao;
 import com.gilclei.cursomc.domain.Pedido;
 import com.gilclei.cursomc.domain.Produto;
 import com.gilclei.cursomc.domain.enums.EstadoPagamento;
+import com.gilclei.cursomc.domain.enums.Perfil;
 import com.gilclei.cursomc.domain.enums.TipoCliente;
 import com.gilclei.cursomc.repositories.CategoriaRepository;
 import com.gilclei.cursomc.repositories.CidadeRepository;
@@ -127,16 +128,23 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(c1,c2,c3));	
 		
 		Cliente cli1 = new Cliente(null, "Maria Silva", "gilclei@gmail.com", "333333333333", TipoCliente.PESSOAFISICA,passwordEncoder.encode("1234"));
-		
 		cli1.getTelefones().addAll(Arrays.asList("8000038850","88633565566"));
+		
+		Cliente cli2 = new Cliente(null, "Ana Costa", "gilclei@hotmail.com", "31628382740", TipoCliente.PESSOAFISICA, passwordEncoder.encode("123"));
+		cli2.getTelefones().addAll(Arrays.asList("93883321", "34252625"));
+		cli2.addPerfil(Perfil.ADMIN);
+		
+		
 		
 		Endereco e1 = new Endereco(null, "Rua das Flores", "300", "Apto 303", "jardim", "3825545456", cli1, c1);
 		Endereco e2 = new Endereco(null, "Av matos", "105", "sala 800", "centro", "3825545456", cli1, c2);
 		
+		Endereco e3 = new Endereco(null, "Avenida Floriano", "2106", null, "Centro", "281777012", cli2, c2);
+		
 		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
 		
-		clienteRepository.save(cli1);
-		enderecoRepository.saveAll(Arrays.asList(e1,e2)); 
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2,e3)); 
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
