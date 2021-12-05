@@ -17,7 +17,7 @@ public enum Perfil {
 		return cod;
 	}
 
-	public String getNome() {
+	public String getDescricao() {
 		return descricao;
 	}
 
